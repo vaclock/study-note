@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script src="./add.js"></script>
+<script>
+  Module.onRuntimeInitialized = _ => {
+    // WebAssembly 模块加载完毕，现在可以调用函数了
+    console.log(Module, 'Module');
+    const result = Module._add(5, 3);
+    console.log("5 + 3 =", result);
+  };
+</script>
+</body>
+</html>
