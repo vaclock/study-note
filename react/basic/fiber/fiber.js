@@ -1,61 +1,52 @@
-
 let tasks = [];
 
 let isRendering = false;
 
 const channel = new MessageChannel();
-const port = channel.port2;
+const port = channel.port1;
 
 function scheduleTask(task, expirationTime) {
     tasks.push({
         task,
         expirationTime
-    });
+    })
     if (!isRendering) {
         isRendering = true;
-
-        // 向port1发送一条null消息，port1接收到消息之后进行任务的执行（找帧空闲时间）
-        port.postMessage(null);
+        channel.port2.postMessage(null, port);
     }
 }
 
-function performTask(currentTime) {
-
-    // console.log(currentTime, 'currentTime');
-    let frameTime = 1000 / 60;
-
-    while (tasks.length > 0 && performance.now() - currentTime < frameTime) {
+function taskProcess(currentTime) {
+    const frameTime = 10000 / 60;
+    while(tasks.length > 0 && performance.now() - currentTime <= frameTime) {
         const {
             task,
             expirationTime
         } = tasks.shift();
 
         if (performance.now() >= expirationTime) {
-            // 任务已经过期
-            console.log(performance.now(), expirationTime);
             task();
         }
         else {
             tasks.push({
                 task,
                 expirationTime
-            });
+            })
         }
-
-        // let res = ''
-        // tasks.map(item => res += item.task.name)
-        // console.log(res);
     }
 
-    if (tasks.length) {
-        requestAnimationFrame(performTask);
+    if (tasks.length > 0) {
+        requestAnimationFrame(taskProcess);
     }
     else {
         isRendering = false;
     }
 }
 
-channel.port1.onmessage = () => requestAnimationFrame(performTask);
+port.onmessage = () => {
+    requestAnimationFrame(taskProcess);
+}
+
 
 function task1() {
     console.log('current run task1');
