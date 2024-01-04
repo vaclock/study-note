@@ -4,11 +4,12 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "webpack build --mode=development",
+    "build": "webpack build --mode=production",
     "dev": "webpack --mode=development",
-    "watch": "webpack serve --mode=development"
+    "watch": "webpack serve --mode=production"
   },
   "devDependencies": {
+    "@babel/cli": "^7.23.4",
     "@babel/core": "^7.23.7",
     "@babel/plugin-transform-react-jsx": "^7.23.4",
     "@babel/preset-env": "^7.23.7",

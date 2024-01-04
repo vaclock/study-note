@@ -18,17 +18,7 @@ export default function createElement(tagType, props, ...children) {
         type: tagType,
         props: {
             ...props,
-            children: children.map(child => typeof child === 'object' ? child : createTextElement(child))
-        }
-    }
-}
-
-function createTextElement(text) {
-    return {
-        type: 'text',
-        props: {
-            nodeValue: text,
-            children: []
+            children: children.map(child => child)
         }
     }
 }

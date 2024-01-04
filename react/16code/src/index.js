@@ -3,7 +3,7 @@
 
 import React from '../react/index.js';
 
-const element = <div>
+const element = <div className='test' id="container">
     <h1 title="foo">Hello</h1>
     111
     <a href="">链接</a>

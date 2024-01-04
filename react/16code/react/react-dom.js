@@ -1,8 +1,9 @@
 
 export function render(element, container) {
     // 将element都遍历成html creteElement createTextNode
-    const dom = element.type === 'text' ? document.createTextNode('') : document.createElement(element.type);
-    Object.keys(element.props)
+    const dom = typeof element === 'string' ? document.createTextNode(element) : document.createElement(element.type);
+
+    element?.props && Object.keys(element.props)
         .filter(prop => prop !== 'children')
         .map(prop => {
             dom[prop] = element.props[prop]
