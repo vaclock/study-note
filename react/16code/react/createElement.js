@@ -18,7 +18,23 @@ export default function createElement(tagType, props, ...children) {
         type: tagType,
         props: {
             ...props,
-            children: children.map(child => child)
+            children: children.map(child => typeof child === 'object' ? child : createTextNode(child))
+                // if (typeof child === 'string') {
+                //     return createTextNode(child)
+                // }
+                // return child
+                // typeof child === 'object' ? child : createTextElement(child)
+            // })
+        }
+    }
+}
+
+function createTextNode (text) {
+    return {
+        type: 'TEXT_ELEMENT',
+        props: {
+            nodeValue: text,
+            children: []
         }
     }
 }
