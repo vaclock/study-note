@@ -76,7 +76,6 @@ function workLoop(deadline) {
         nextUnitOfWork = performNextUnitOfWork(nextUnitOfWork)
         shouldYield = deadline.timeRemaining() < 1
     }
-
     if (!nextUnitOfWork && wipRoot) {
         commitRoot()
     }
