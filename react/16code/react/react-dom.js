@@ -31,14 +31,44 @@ while(下一个工作单元) {
 
 let nextUnitOfWork = null
 
+
+// 根节点
+let wipRoot = null
+
 export function render(element, container) {
-    nextUnitOfWork = {
+    wipRoot = {
         dom: container,
         props: {
             children: [element]
         }
     }
+
+    nextUnitOfWork = wipRoot
 }
+
+/**
+ * 处理提交的fiber树
+ */
+function commitWork(fiber) {
+    if (!fiber) {
+        return
+    }
+
+    fiber.parent.dom.appendChild(fiber.dom)
+
+    commitWork(fiber.child)
+    commitWork(fiber.siblings)
+
+}
+
+/**
+ * 提交任务，将fiber-tree转为真实dom
+ */
+function commitRoot() {
+    commitWork(wipRoot.child)
+    wipRoot = null
+}
+
 
 function workLoop(deadline) {
     let shouldYield = false
@@ -46,6 +76,11 @@ function workLoop(deadline) {
         nextUnitOfWork = performNextUnitOfWork(nextUnitOfWork)
         shouldYield = deadline.timeRemaining() < 1
     }
+
+    if (!nextUnitOfWork && wipRoot) {
+        commitRoot()
+    }
+
     requestIdleCallback(workLoop)
 }
 
@@ -60,9 +95,9 @@ function performNextUnitOfWork(fiber) {
         fiber.dom = new createDom(fiber)
     }
 
-    if (fiber.parent) {
-        fiber.parent.dom.appendChild(fiber.dom)
-    }
+    // if (fiber.parent) {
+    //     fiber.parent.dom.appendChild(fiber.dom)
+    // }
 
     let index = 0
     let prevSiblings = null // 上一个兄弟节点
