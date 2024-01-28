@@ -28,10 +28,10 @@ while(下一个工作单元) {
 /**
  * render(初始化nextworkunit) -> requesIdleCallback -> workLoop -> performNextUnitOfWork
  */
-
+// 下一个工作单元
 let nextUnitOfWork = null
-
-
+// 更新前的根节点fiber树
+let currentRoot = null;
 // 根节点
 let wipRoot = null
 
@@ -40,7 +40,9 @@ export function render(element, container) {
         dom: container,
         props: {
             children: [element]
-        }
+        },
+        // 最后一个fiber树的引用
+        alternate: currentRoot,
     }
 
     nextUnitOfWork = wipRoot
@@ -53,6 +55,7 @@ function commitWork(fiber) {
     if (!fiber) {
         return
     }
+    // console.log(fiber, 'fiber', fiber.parent)
 
     fiber.parent.dom.appendChild(fiber.dom)
 
@@ -65,7 +68,9 @@ function commitWork(fiber) {
  * 提交任务，将fiber-tree转为真实dom
  */
 function commitRoot() {
+    console.log(wipRoot);
     commitWork(wipRoot.child)
+    currentRoot = wipRoot
     wipRoot = null
 }
 
@@ -130,7 +135,6 @@ function performNextUnitOfWork(fiber) {
         if (nextFiber.siblings) {
             return nextFiber.siblings
         }
-        // console.log(nextFiber, '😊');
         nextFiber = nextFiber.parent
     }
 }

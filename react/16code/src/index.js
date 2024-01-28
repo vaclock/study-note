@@ -3,11 +3,11 @@
 
 import React from '../react/index.js';
 
-const element = <div className='test' id="container">
+const element = <div><div className='test' id="container">
     <h1 title="foo">Hello</h1>
     111
     <a href="">链接</a>
-</div>
+</div></div>
 console.log('element: ', element);
 
 const root = document.querySelector('#root')
