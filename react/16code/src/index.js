@@ -12,7 +12,7 @@ console.log('element: ', element);
 
 const root = document.querySelector('#root')
 React.render(element, root)
-// console.log(root);
+console.log(root);
 
 // const content = document.createElement(element.type);
 // // content.setAttribute('title', element.props.title);
