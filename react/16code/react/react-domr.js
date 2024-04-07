@@ -139,7 +139,9 @@ function commitDeletion(fiber, domParent) {
  * 提交任务，将fiber tree 渲染为真实 DOM
  */
 function commitRoot() {
-	deletions.forEach(commitWork);
+	console.log([...deletions], 'deletions', deletions.length)
+	console.log(wipRoot.child, 'wipRoot')
+	// deletions.forEach(commitWork);
 	commitWork(wipRoot.child);
 	currentRoot = wipRoot;
 	wipRoot = null;
@@ -161,6 +163,7 @@ function workLoop(deadline) {
 
 	// 没有下一个工作单元，提交当前fiber树
 	if (!nextUnitOfWork && wipRoot) {
+		console.log('最终执行一次')
 		commitRoot();
 	}
 
@@ -281,6 +284,7 @@ export function useState(initial) {
 
 	const setState = (action) => {
 		hook.queue.push(action);
+		// bad 没有做diff更新
 		//整个树都被我们重新渲染了
 		wipRoot = {
 			dom: currentRoot.dom,
@@ -303,6 +307,7 @@ export function useState(initial) {
  */
 function performUnitOfWork(fiber) {
 	const isFunctionComponent = fiber.type instanceof Function;
+	console.log(isFunctionComponent, 'fibertype', fiber)
 
 	if (isFunctionComponent) {
 		updateFunctionComponent(fiber);

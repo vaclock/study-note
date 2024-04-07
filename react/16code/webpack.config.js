@@ -9,9 +9,15 @@ module.exports = {
     //     aggregateTimeout: 300,
     //     poll: 1000
     // },
+    // mode: 'development',
+    // entry: './src/index.js',
+    // output: {
+    //     filename: 'index.js',
+    // },
     devServer: {
         open: {
         target: ['./src/index.html', 'http://localhost:8080/second.html'],
+        // target: ['./src/index.html'],
         app: {
             name: 'google-chrome',
             arguments: ['--incognito', '--new-window'],
@@ -33,7 +39,7 @@ module.exports = {
         ]
     },
     optimization: {
-        minimize: false,
+        minimize: true,
     },
     plugins: [
         new HtmlWebpackPlugin({
