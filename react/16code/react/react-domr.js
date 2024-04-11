@@ -257,6 +257,7 @@ function updateFunctionComponent(fiber) {
 	hookIndex = 0;
 	//随着当前的函数组件一起的
 	wipFiber.hooks = [];
+	console.log(fiber.type, '======')
 	const children = [fiber.type(fiber.props)];
 	reconcileChildren(fiber, children);
 }

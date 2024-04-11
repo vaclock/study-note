@@ -14,6 +14,7 @@
  * @param  {...any} children
  */
 export default function createElement(tagType, props, ...children) {
+    console.log(tagType, 'tagType')
     return {
         type: tagType,
         props: {
