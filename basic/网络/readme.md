@@ -215,7 +215,7 @@ TCP协议要实现数据的收发 必须先建立连接
 连接的建立有三个过程 **tcp协议本身不一定是客户端主动发送** 以下数据在分段数据报文头里
 send(发送方)、 receiver(接受方)
 - send --(**SYN=1**,seq=x)-> receiver :请求建立连接
-- send <--(**SYN=1**,seq=y,ACK=1,ack=x+1)-> receiver  :收到请求 回复确认
+- send <--(**SYN=1**,seq=y,ACK=1,ack=x+1)-- receiver  :收到请求 回复确认
 - send --(**ACK=1**,ack=y+1,seq=x+1)-> receiver   :收到确认
 - 开始传输数据
 

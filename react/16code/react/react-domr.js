@@ -176,7 +176,7 @@ requestIdleCallback(workLoop);
 /**
  * 协调
  * @param {*} wipFiber
- * @param {*} elements
+ * @param {*} elements wipFiber.children
  */
 function reconcileChildren(wipFiber, elements) {
 	// 索引
