@@ -49,7 +49,7 @@ export default defineConfig((config: ConfigEnv): UserConfig => {
     return {
         root,
         server: {
-            open: './public/index.html'
+            open: './public/index.html',
         }
     }
 })
