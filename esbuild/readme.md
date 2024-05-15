@@ -10,3 +10,6 @@
 `npx esbuild src/App.ts --outdir=dist --bundle  --loader:.ts=tsx`
 
 `npx esbuild src/App.ts --outdir=dist --bundle  --loader:.svg=dataurl`
+
+- 命令行服务区
+`npx http-server -o -c-1` : -o 浏览器打开 -c-1 清除缓存
