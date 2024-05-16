@@ -1,6 +1,7 @@
 import esbuild from 'esbuild';
 import inlineImage from 'esbuild-plugin-inline-image';
-import time from 'esbuild-plugin-time'
+import time from 'esbuild-plugin-time';
+import cleanDist from './src/plugins/clean-dist-plugin.mjs';
 
 // 版本1
 // esbuild.build({
@@ -62,7 +63,26 @@ import time from 'esbuild-plugin-time'
 })();
 */
 
-(async () => { 
+function myPlugin() {
+  return {
+    name: 'my-plugin',
+    setup(build) {
+      console.log(build.initialOptions)
+      build.onResolve({
+        filter: /^[^\.]/
+      }, (args) => {
+        console.log(args, 'args')
+      })
+      build.onEnd((result) => {
+        console.log('-----onEnd------')
+        console.log(result)
+      })
+      // console.log(build.onResolve())
+    }
+  }
+}
+
+(async () => {
   const ctx = await esbuild.context({
     //入口列表
     entryPoints: ['src/App.tsx', 'src/index.html'],
@@ -83,10 +103,15 @@ import time from 'esbuild-plugin-time'
     //指定loader
     loader: {
       ".html":"copy",
-      ".module.css":"local-css"
+      // ".module.css":"local-css"
     },
     //插件
-    plugins: [inlineImage(),time()],
+    plugins: [
+      cleanDist(),
+      myPlugin(),
+      inlineImage(),
+      time()
+    ],
   })
 
   await ctx.watch();
@@ -95,7 +120,7 @@ import time from 'esbuild-plugin-time'
     port: 8088,
     host: 'localhost',
     servedir: './dist',
-  }).then((server) => { 
+  }).then((server) => {
     console.log(` server is running as http://${server.host}:${server.port}`);
   })
 
