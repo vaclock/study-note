@@ -49,6 +49,7 @@ export default defineConfig((config: ConfigEnv): UserConfig => {
     return {
         root,
         server: {
+            hmr: true,
             open: './public/index.html',
         }
     }

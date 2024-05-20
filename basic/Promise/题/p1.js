@@ -1,12 +1,11 @@
 new Promise((res, rej) => {
-    throw new Error(1)
+    rej(1)
 })
 .then(res => {
     console.log(res)
-    throw new Error(2)
 })
 .catch(err => {
-    throw err
+    console.log(err, '111')
 })
 .then(res => {
     console.log(res)
