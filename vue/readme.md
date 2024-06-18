@@ -26,3 +26,7 @@ const vnode = h('div', {
 - 词法分析：检测代码错误
 - 语法分析：将代码转变成语法数
 > AST可以实现js反混淆
+
+## demo
+
+1. [自己实现一个简单路由](https://cn.vuejs.org/guide/scaling-up/routing.html#simple-routing-from-scratch)
