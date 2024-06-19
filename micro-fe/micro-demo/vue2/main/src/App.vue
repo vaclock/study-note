@@ -12,14 +12,10 @@
               <i class="el-icon-menu"></i>
               <span slot="title">导航二</span>
             </el-menu-item>
-            <!-- <el-menu-item index="/app-react-demo">
+            <el-menu-item index="/app-vue2-demo">
               <i class="el-icon-document"></i>
               <span slot="title">导航三</span>
             </el-menu-item>
-            <el-menu-item index="/app-vite-demo">
-              <i class="el-icon-setting"></i>
-              <span slot="title">导航四</span>
-            </el-menu-item> -->
           </el-menu>
         </el-aside>
         <el-container>

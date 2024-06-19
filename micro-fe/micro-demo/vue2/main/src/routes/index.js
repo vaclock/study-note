@@ -13,6 +13,12 @@ const router = new VueRouter({
     },
     {
       //路由路径最好是非严格匹配
+      path: "/app-vue2-demo*",
+      name: "Vue2DemoPage",
+      component: () => import("@/views/subAppContainer/Vue2Demo.vue")
+    },
+    {
+      //路由路径最好是非严格匹配
       path: "/app-vue3-demo*",
       name: "Vue2DemoPage",
       component: () => import("@/views/subAppContainer/Vue3Demo.vue")
