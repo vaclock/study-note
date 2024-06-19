@@ -11,7 +11,6 @@ import router from './router'
 
 import microApp from '@micro-zoe/micro-app'
 microApp.start()
-
 const app = createApp(App)
 
 app.use(naive);
