@@ -1,0 +1,7 @@
+.text {
+    color: #abcdef;
+    border: 1px solid red;
+    &:hover {
+        color: yellowgreen;
+    }
+}
