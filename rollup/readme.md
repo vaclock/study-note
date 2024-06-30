@@ -68,3 +68,29 @@ export default [
 4. @rollup/plugin-babel: babel插件 用于转换成es5语法, 需要安装babel-core 和 env预设
 5. tslib、@rollup/plugin-typescript: 用于支持 typescript 的编译
 
+## 插件
+
+### 自定义插件
+1. 基本事项
+> [@rollup/pluginutils](https://github.com/rollup/plugins/tree/master/packages/pluginutils)
+- createFilter: 通过`options.exclude`和`options.include`来生成过滤规则，并在transform钩子中过滤掉这些模块
+2. 插件上下文
+
+### 虚拟模块
+```js
+// 使用
+import virtual from 'my-virtual-module';
+//...
+
+// 编译
+plugins: [
+	() => {
+		return {
+			resolveId: (module) => {
+				if (module === 'my-virtual-module') 「
+				export default `this is a virtual-module`;
+			}
+		}
+	}
+]
+```
