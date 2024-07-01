@@ -1,18 +1,17 @@
 {
-  "name": "hmr-pro",
+  "name": "my-hmr-project",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "node esbuild.config.js",
-    "dev": "NODE_ENV=development npm run build "
+    "build": "node esbuild.config.js -w",
+    "start": "node server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "chokidar": "^3.6.0",
-    "esbuild": "^0.21.5",
-    "ws": "^8.17.1"
+    "esbuild": "^0.21.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "vue": "^3.0.0",
+    "ws": "^8.0.0"
   }
 }

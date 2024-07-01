@@ -2,7 +2,7 @@ const WebSocket = require('ws');
 const chokidar = require('chokidar');
 const path = require('path');
 
-const wss = new WebSocket.Server({ port: 8999 });
+const wss = new WebSocket.Server({ port: 9999 });
 
 wss.on('connection', (ws) => {
   console.log('HMR客户端已连接');

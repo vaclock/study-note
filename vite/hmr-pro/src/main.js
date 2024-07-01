@@ -1,15 +1,11 @@
-import { greet } from './module.js';
+import {setupCounter} from './counter';
+import {countdown} from './countdownRender';
+document.querySelector('#app').innerHTML = `<div>
+    <h2>hello!222</h2>
+    <button id="counter"></button>
+</div>`;
+setupCounter(document.querySelector('#counter'))
 
-function render() {
-  document.getElementById('app').textContent = greet();
-}
+countdown();
 
-render();
-
-if (import.meta.hot) {
-  import.meta.hot.accept('./module.js', (newModule) => {
-    render();
-  });
-}
-
-export default render;
+// HMR setup for manual reload

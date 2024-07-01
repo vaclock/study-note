@@ -1,70 +1,77 @@
 const esbuild = require('esbuild');
-const path = require('path');
 const fs = require('fs');
-
-// const isDev = process.env.NODE_ENV === 'development';
 
 const hmrPlugin = {
   name: 'hmr',
   setup(build) {
-    // if (!isDev) return;
-
-    build.onLoad({ filter: /\.js$/ }, async (args) => {
+    build.onLoad({ filter: /\.(js|jsx|ts|tsx|vue)$/ }, async (args) => {
       let contents = await fs.promises.readFile(args.path, 'utf8');
-      // const relativePath = path.relative(process.cwd(), args.path).replace(/\\/g, '/');
-      contents += `
-if (import.meta.hot) {
-  import.meta.hot.accept();
-}
+      console.log(args.path, 'args.path')
+      if (args.path.endsWith('.js')) {
+        contents += `
 
-if (window.__HMR_WEBSOCKET__) {
-  if (!import.meta.hot) {
-    import.meta.hot = {
-      accept(callback) {
-        this._acceptCallback = callback;
-      },
-      applyUpdate(newModule) {
-        if (this._acceptCallback) {
-          this._acceptCallback(newModule);
-        }
+          // if (window.__HMR_WEBSOCKET__) {
+            if (!import.meta.hot) {
+              console.log('aaa')
+              import.meta.hot = {
+                accept(callback) {
+                  if (callback) {
+                    this._acceptCallback = callback;
+                  }
+                  console.log('accept', this._acceptCallback)
+                },
+                applyUpdate(newModule) {
+                  console.log('aaa', this._acceptCallback);
+                  if (this._acceptCallback) {
+                    this._acceptCallback(newModule)
+                  }
+                }
+              }
+            }
+
+            const socket = new WebSocket('ws://localhost:9999');
+            socket.addEventListener('message', (event) => {
+              const data = JSON.parse(event.data);
+              console.log('message', data);
+              if (data.type === 'reload' && data.path === ${JSON.stringify(args.path)}) {
+                import('${args.path}').then((newModule) => {
+                  console.log('reload', newModule, ${JSON.stringify(args.path)});
+                  import.meta.hot.applyUpdate(newModule);
+                });
+              }
+            });
+          // }
+        `;
       }
-    };
-  }
-
-  const socket = new WebSocket('ws://localhost:8999');
-  socket.addEventListener('message', (event) => {
-    const data = JSON.parse(event.data);
-    if (data.type === 'reload') {
-      import('${args.path}').then((newModule) => {
-        import.meta.hot.applyUpdate(newModule);
-      });
-    }
-  });
-}
-`;
       return { contents, loader: 'js' };
     });
   },
 };
 
-esbuild.context({
-  entryPoints: ['src/main.js'],
-  bundle: true,
-  format: 'esm',
-  outfile: 'public/dist/bundle.js',
-  // sourcemap: isDev,
-  plugins: [hmrPlugin],
-}).then((context) => {
-  // if (isDev) {
-    context.watch();
-    context.serve({
-      port: 8899,
-      host: 'localhost',
-      servedir: './public',
-    }).then((server) => {
-      console.log(`服务器运行在 http://${server.host}:${server.port}`);
-    });
-  // } else {
-  //   console.log('构建完成。');
-  // }
-}).catch(() => process.exit(1));
+// esbuild.build({
+//   entryPoints: ['src/main.js'],
+//   bundle: true,
+//   format: 'esm',
+//   outfile: 'public/dist/bundle.js',
+//   plugins: [hmrPlugin]
+// }).catch(() => process.exit(1));
+
+(async () => {
+  const ctx = await esbuild.context({
+    entryPoints: ['src/main.js'],
+    bundle: true,
+    format: 'esm',
+    outfile: 'public/dist/bundle.js',
+    plugins: [hmrPlugin]
+  })
+
+  await ctx.watch();
+
+  ctx.serve({
+    port: 8989,
+    host: 'localhost',
+    servedir: './public',
+  }).then((server) => {
+    console.log(` server is running as http://${server.host}:${server.port}`);
+  })
+})();
