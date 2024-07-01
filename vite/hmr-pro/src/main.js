@@ -1,4 +1,15 @@
 import { greet } from './module.js';
 
-const app = document.getElementById('app');
-app.textContent = greet();
+function render() {
+  document.getElementById('app').textContent = greet();
+}
+
+render();
+
+if (import.meta.hot) {
+  import.meta.hot.accept('./module.js', (newModule) => {
+    render();
+  });
+}
+
+export default render;

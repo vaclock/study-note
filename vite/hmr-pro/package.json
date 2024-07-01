@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "node esbuild.config.js",
-    "dev": "node server/hmr-server.js & npm run build"
+    "dev": "NODE_ENV=development npm run build "
   },
   "keywords": [],
   "author": "",

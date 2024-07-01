@@ -1,4 +1,7 @@
 export function greet() {
-    return 'Hello, esbuild HMR!';
-  }
-  
+  return 'Hello, world!';
+}
+
+if (import.meta.hot) {
+  import.meta.hot.accept();
+}
