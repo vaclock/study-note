@@ -12,7 +12,7 @@ const deps = []
 (async () => {
 	await esbuild.build({
 		write: false,
-    entryPoints: ['src/index.js'],
+    	entryPoints: ['src/index.js'],
 		loader: {
       '.js': 'jsx',
       '.svg': 'dataurl',
@@ -75,3 +75,33 @@ accept(dep: string, cb: (mod: ModuleNameSpace | undefined) => void): void
 ```js
 accept(deps: readonly string[], cb: (mod: ModuleNameSpace | undefined) => void): void
 ```
+
+### code-splitting
+
+#### 优点
+1. **减少初始加载时间**
+2. **按需加载**
+3. **并行加载**
+4. **缓存利用**
+
+#### 配置
+1. `build.rollupOptions.manualChunks`: 由于vite打包基于rollup，因此可以使用rollup的拆包
+2. `vite-plugin-chunk-split`插件
+```js
+plugins: [
+	new chunkSplitPlugin({
+		customSplitting: {
+			'vendor': ['vue']
+		}
+	})
+]
+```
+
+### 常见模块
+- Bundle（捆绑包）: 项目运行整个包
+- Chunk（代码块）: bundle的子集
+- Vendor（供应商）: 一种特殊的chunk
+
+### vite默认的行为
+1. 动态import的模块(路由中的组件)
+2. 每个组件的css会自动code-split
