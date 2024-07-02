@@ -13,18 +13,18 @@
 |>> entryFileNames|string|入口文件指纹|
 |>> chunksFileNames|string|输出文件指纹|
 
-
 ## 多种格式输出
+
 ```js
 output: [
-	{
-		file: 'dist/iife/bundle.js',
-		format: 'iife',
-	},
-	{
-		file: 'dist/amd/bundle.js',
-		format: 'amd',
-	}
+ {
+ file: 'dist/iife/bundle.js',
+ format: 'iife',
+ },
+ {
+ file: 'dist/amd/bundle.js',
+ format: 'amd',
+ }
 ]
 ```
 
@@ -35,7 +35,9 @@ output: [
 ## 一些配置解决方案
 
 ### 不同的文件做不同类型的导出
+
 > 其中一个入口文件输出成一种格式 另外一个入口文件输出成另外一种格式
+
 ```js
 // rollup.config.js
 export default [
@@ -57,11 +59,13 @@ export default [
 ```
 
 ## rollup的基本理论点
+
 1. [Unresolved dependencies](https://cn.rollupjs.org/troubleshooting/#warning-treating-module-as-external-dependency): 默认情况下 rollup只解析相对路径, 绝对路径需要使用external或者插件
 2. [[name] is not exported by [module]](https://cn.rollupjs.org/troubleshooting/#error-name-is-not-exported-by-module)Rollup 默认只能分析 ESM（ECMAScript Module）模块, 对于其他模块 只能使用插件
 3. 默认不会进行es5语法转换 需要安装babel插件
 
 ## 使用插件
+
 1. @rollup/plugin-node-resolve: 将依赖打包到打包结果中
 2. rollup-plugin-polyfill-node: node内置模块的polyfill
 3. @rollup/plugin-commonjs: 将commonjs模块转为esm模块
@@ -71,12 +75,17 @@ export default [
 ## 插件
 
 ### 自定义插件
+
 1. 基本事项
+
 > [@rollup/pluginutils](https://github.com/rollup/plugins/tree/master/packages/pluginutils)
+
 - createFilter: 通过`options.exclude`和`options.include`来生成过滤规则，并在transform钩子中过滤掉这些模块
+
 2. 插件上下文
 
 ### 虚拟模块
+
 ```js
 // 使用
 import virtual from 'my-virtual-module';
@@ -93,4 +102,27 @@ plugins: [
 		}
 	}
 ]
+```
+
+## 补充
+
+1. shebang注释: `#!/usr/bin/env node` --> 表明该文件使用node执行
+2. cli工具: 打包后的文件可以直接运行, 如./dist/my-tool.js ===> node ./dist/my-tool.js
+3. 发布npm包: 用户安装了该包, 可以直接使用my-tool命令
+
+```json
+{
+  "name": "my-cli-tool",
+  "version": "1.0.0",
+  "bin": {
+    "my-tool": "dist/my-tool.js"
+  },
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "rollup": "^2.0.0"
+  }
+}
 ```
