@@ -6,6 +6,41 @@
 
 1. 规范化包(减少转换的次数)
 2. 减少请求瀑布流(可能会合并文件)
+```js
+const esbuild = require('esbuild')
+const deps = []
+(async () => {
+	await esbuild.build({
+		write: false,
+    entryPoints: ['src/index.js'],
+		loader: {
+      '.js': 'jsx',
+      '.svg': 'dataurl',
+      '.png': 'file'
+    },
+		plugins: [
+			(deps) => {
+				return {
+					name: 'esbuild-deps-pre-build',
+					setup(build) {
+						build.onResolved({filter: /^[^\.]/}, (args) => {
+								deps.push(args.path)
+						})
+					}
+				}
+			}(deps)
+		]
+	})
+
+	esbuild.build({
+    entryPoints: deps,
+    bundle: true,
+    format: 'esm'
+		outdir: './node_modules/.own/deps'
+	})
+})()
+
+```
 
 ### HMR
 
