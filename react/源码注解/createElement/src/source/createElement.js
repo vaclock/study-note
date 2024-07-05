@@ -37,6 +37,18 @@ const RESERVED_PROPS = {
 
 // demo 如果children不是文本元素，则传React.createElement得到的值
 // React.createElement("h1", { style: { color: "red" }, "data-ref": "1" }, "Hello World")
+/**
+{
+  type: 'h1',
+  key: null,
+  ref: null,
+  props: {
+    style: { color: 'red' },
+    children: 'Hello World',
+    'data-ref': '1'
+  }
+}
+ */
 
 /**
  * Create and return a new ReactElement of the given type.

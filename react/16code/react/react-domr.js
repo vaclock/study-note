@@ -163,7 +163,7 @@ function workLoop(deadline) {
 
 	// 没有下一个工作单元，提交当前fiber树
 	if (!nextUnitOfWork && wipRoot) {
-		console.log('最终执行一次')
+		// console.log('最终执行一次')
 		commitRoot();
 	}
 
