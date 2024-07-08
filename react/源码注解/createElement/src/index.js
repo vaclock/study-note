@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 // import ReactDOM from 'react-dom/client';
+import parse from 'html-react-parser';
 import ReactDOM from 'react-dom';
 
 const UserProfile = React.memo(({ user }) => {
@@ -55,6 +56,16 @@ function App() {
   setTimeout(() => {
     setText('text changed')
   }, 2000)
+  const [dynamicJsx, setDynamicJsx] = useState('')
+
+  useEffect(async () => {
+    let res = await fetch('http://localhost')
+    res = await res.text()
+    console.log(res, '===')
+    setDynamicJsx(res)
+  }, [])
+  const jsxString = parse(dynamicJsx);
+  console.log(jsxString, 'jsxString')
   const [msg, setMsg] = useState('from function parent to class')
   return (
     <div>
@@ -64,6 +75,9 @@ function App() {
         email: '111',
         age: 11
       }}></UserProfile>
+
+
+      {jsxString}
 
       <ClassTest msg={msg}></ClassTest>
     </div>

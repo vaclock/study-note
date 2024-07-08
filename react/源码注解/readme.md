@@ -27,6 +27,12 @@
 
 1. schedule的unstable_now方法
 
+## diff
+
+1. diff过程中会直接抛弃的情况
+2. `reconcileChildFibers`方法处理所有情况下的currentFiber和WipFiber的diff, 以新元素是常规的ReactElement, 旧fiber是多个元素来讲, diff发生在`reconcileSingleElement`, 具体的来说, 循环便利父fiber下旧的子fiber, 对比key和type, 然后其余fiber会被添加Deletion 副作用标记. 当key和type相同时, 使用`useFiber`进行clone, 也就是fiber复用.
+3. 以新元素时多元素的情况来讲, 需要一个或多个子fiber替换为多个fiber, diff发生在`reconcileChildrenArray`,
+
 ## api
 
 1. `React.memo`: `React.memo(<ReactComponent />, (prevProps, currentProps): boolean)`, 默认情况下第二个参数可选, React会只用Object.is进行比较, 所以当某个props是对象的情况下, 不更改第二个参数的情况, 即使值没有变化, React也会preRender.
