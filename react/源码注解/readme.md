@@ -7,6 +7,12 @@
 1. render: 渲染组件, 生成根的fiber-node, 深度遍历, 生成fiber-tree
 2. commit: 提交更新, 生成dom树, 深度遍历, 更新dom(初次是createElement, 后续pre-render是diff之后updateElement&createElement), commit的根本工作就是在完成render阶段产生的effectList需要更改dom的fiber
 
+## 直观感受fiber
+
+1. [stack渲染](https://claudiopro.github.io/react-fiber-vs-stack-demo/stack.html)
+2. [fiber渲染](https://claudiopro.github.io/react-fiber-vs-stack-demo/fiber.html)
+
+
 ## 提几个问题
 
 1. react15的不可中断到底边界在哪里, 是整个root到每个叶子的整个过程不可中断, 还是每个叶子不可中断?
@@ -20,6 +26,7 @@
 9. 什么阶段调用的createWorkInProgress, 第一次render完成时, 每个节点是否存在alternate属性?
 10. render时期, createFiber之前的各种legacyxxx方法是做什么用的?
 11. react如何实现的分片渲染(没有使用requestIdleCallback)
+12. 哪些情况下会发生re-render? 也就是renderWithHooks函数中的递归部分, 如果发生了re-render, 是不是不可中断?
 
 回答:
 
