@@ -12,7 +12,7 @@ const deps = []
 (async () => {
 	await esbuild.build({
 		write: false,
-    	entryPoints: ['src/index.js'],
+		entryPoints: ['src/index.js'],
 		loader: {
       '.js': 'jsx',
       '.svg': 'dataurl',
@@ -23,7 +23,7 @@ const deps = []
 				return {
 					name: 'esbuild-deps-pre-build',
 					setup(build) {
-						build.onResolved({filter: /^[^\.]/}, (args) => {
+						build.onResolve({filter: /^[^\.]/}, (args) => {
 								deps.push(args.path)
 						})
 					}
