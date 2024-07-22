@@ -22,6 +22,56 @@ export function createRoot(element, container) {
   nextUnitOfWork = workInProgressRoot
 }
 
+export function commitRender() {
+  workInProgressRoot = {
+    stateNode: currentRoot.stateNode,
+    element: currentRoot.element,
+    alternate: currentRoot
+  }
+  nextUnitOfWork = workInProgressRoot
+}
+
+
+let currentFunctionFiber = null
+let hookIndex = 0
+
+export function getCurrentFunctionFiber() {
+  return currentFunctionFiber
+}
+
+export function getHookIndex() {
+  return hookIndex++
+}
+
+
+export function updateFunctionComponent(fiber) {
+  currentFunctionFiber = fiber
+  currentFunctionFiber.hooks = []
+  hookIndex = 0
+  const {type: Comp, props} = fiber.element
+  const jsx = Comp(props)
+  reconcileChildren(fiber, [jsx])
+}
+
+function updateClassComponent(fiber) {
+  let jsx
+  const alternate = fiber.alternate
+  if (alternate) {
+    // 存在实例, 复用, 更新props和state
+    const component = alternate.component
+    fiber.component = component
+    component._updateProps(fiber.element.props)
+    jsx = component.render()
+  } else {
+    const {type: Comp, props} = fiber.element
+    const component = new Comp(props)
+    fiber.component = component
+    jsx = component.render()
+  }
+
+  reconcileChildren(fiber, [jsx])
+}
+
 // 包含迭代处理 fiber 的逻辑, 从workInProgressRoot开始, 构造出一个链表, 而不是react-dom中那样直接递归遍历树
 function performUnitOfWork(workInProgress) {
 
@@ -44,15 +94,18 @@ function performUnitOfWork(workInProgress) {
   let children = workInProgress?.element?.props?.children
   const type = workInProgress?.element?.type
 
+  const {type: Comp, props} = workInProgress.element
   if (typeof type === 'function') {
-    const {type: Comp, props} = workInProgress.element
+    // 如果每次都是重新调用, 就没法实现单例, 且无法感知到state变化‘/、’
     if (type.prototype.isReactComponent) {
       // class组件
-      const jsx = new Comp(props).render()
-      children = [jsx]
+      // const jsx = new Comp(props).render()
+      // children = [jsx]
+      updateClassComponent(workInProgress)
     } else {
-      const jsx = Comp(props)
-      children = [jsx]
+      // const jsx = Comp(props)
+      // children = [jsx]
+      updateFunctionComponent(workInProgress)
     }
   }
 
