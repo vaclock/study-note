@@ -1,0 +1,7 @@
+packages/**/node_modules/
+docs/
+scripts/
+jest.config.js
+jest.setup.js
+fixtures/
+**/*.js

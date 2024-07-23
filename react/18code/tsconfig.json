@@ -1,0 +1,18 @@
+{
+  "extends": "@tsconfig/recommended/tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "ESNext",
+    "allowJs": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "alwaysStrict": true,
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "lib": ["EsNext", "EsNext.AsyncIterable", "Dom"],
+    "baseUrl": "packages"
+  },
+  "include": ["packages/**/*.ts", "**/*.d.ts"]
+}
