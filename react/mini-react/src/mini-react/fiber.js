@@ -29,6 +29,7 @@ export function commitRender() {
     alternate: currentRoot
   }
   nextUnitOfWork = workInProgressRoot
+  // deletions = []
 }
 
 

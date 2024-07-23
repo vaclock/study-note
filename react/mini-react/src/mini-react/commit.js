@@ -29,11 +29,11 @@ function commitWork(fiber) {
       parentDom.appendChild(fiber.stateNode)
     }
   } else if (fiber.flag === 'Update') {
-    const {children, ...newAttributes} = fiber.element
+    const {children, ...newAttributes} = fiber.element.props
     const oldAttributes = Object.assign({}, fiber.alternate.element.props)
     delete oldAttributes.children
 
-    updateAttributes(fiber.stateNode, oldAttributes, newAttributes)
+    updateAttributes(fiber.stateNode, newAttributes, oldAttributes)
   }
   commitWork(fiber.sibling)
 }

@@ -11,22 +11,17 @@ export function useState(initial) {
 
   const hook = {
     state: oldHook ? oldHook.state : initial,
+    // queue: oldHook?.queue ? oldHook.queue : []
     queue: []
   }
 
   const actions = oldHook ? oldHook.queue : []
   actions.forEach(action => {
-    hook.state = action(hook.state)
+    hook.state = typeof action === 'function' ? action(hook.state) : action;
   })
 
   const setState = (action) => {
-    if (typeof action === 'function') {
-      hook.queue.push(action)
-    } else {
-      hook.queue.push(() => {
-        return action
-      })
-    }
+    hook.queue.push(action)
     commitRender()
   }
   currentFunctionFiber.hooks.push(hook)
