@@ -11,10 +11,10 @@ function render(element, container) {
 }
 
 export function RenderDom(element) {
-  // console.log(element, 'element')
+  console.log(element, 'element===')
   let dom = null
   if (!element && element !== 0) {
-    // 什么情况下会是0啊？
+    // 什么情况下会是0啊？ ===> 当一个文本节点的text是0的时候
     return null
   }
   if (typeof element === 'string') {

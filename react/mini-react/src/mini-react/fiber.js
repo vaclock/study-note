@@ -76,7 +76,8 @@ function updateClassComponent(fiber) {
 // 包含迭代处理 fiber 的逻辑, 从workInProgressRoot开始, 构造出一个链表, 而不是react-dom中那样直接递归遍历树
 function performUnitOfWork(workInProgress) {
 
-  // 1. 根据fiber创建dom(没太理解, )
+  // 1. 根据fiber创建dom(没太理解, ) ===> 相当于把给当前的fiberNode渲染真实的节点
+  // (rootNode当然不用，因为container的stateNode就是已经在html中存在的)
   if (!workInProgress.stateNode) {
     workInProgress.stateNode = RenderDom(workInProgress.element)
   }
@@ -95,7 +96,7 @@ function performUnitOfWork(workInProgress) {
   let children = workInProgress?.element?.props?.children
   const type = workInProgress?.element?.type
 
-  const {type: Comp, props} = workInProgress.element
+  // 渲染当前元素的逻辑, 函数或者类组件的children单独的reconcile ==> render -> jsx
   if (typeof type === 'function') {
     // 如果每次都是重新调用, 就没法实现单例, 且无法感知到state变化‘/、’
     if (type.prototype.isReactComponent) {
@@ -110,7 +111,9 @@ function performUnitOfWork(workInProgress) {
     }
   }
 
-  // 不懂这里为什么children === 0
+  console.log(children, 'children==')
+
+  // 不懂这里为什么children === 0 ==> 应该没有0 的情况
   if (children || children === 0) {
     // 不懂为什么要flat
     let elements = (Array.isArray(children) ? children : [children]).flat()
