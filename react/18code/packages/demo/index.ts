@@ -1,2 +1,2 @@
 export const data: string = 'test'
-function init(data) {}
+// function init(data) {}
