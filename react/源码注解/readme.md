@@ -27,6 +27,8 @@
 10. render时期, createFiber之前的各种legacyxxx方法是做什么用的?
 11. react如何实现的分片渲染(没有使用requestIdleCallback)
 12. 哪些情况下会发生re-render? 也就是renderWithHooks函数中的递归部分, 如果发生了re-render, 是不是不可中断?
+13. fiber架构的链表比树优势在哪里？递归不可中断，fiber的链表就可中断了吗？
+14. react和vue的设计理念和区别
 
 回答:
 
