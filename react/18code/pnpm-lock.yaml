@@ -87,7 +87,7 @@ importers:
   packages/react:
     dependencies:
       '@react/demo':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../demo
 
 packages:
