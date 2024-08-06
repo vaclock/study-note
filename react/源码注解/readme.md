@@ -7,11 +7,15 @@
 1. render: 渲染组件, 生成根的fiber-node, 深度遍历, 生成fiber-tree
 2. commit: 提交更新, 生成dom树, 深度遍历, 更新dom(初次是createElement, 后续pre-render是diff之后updateElement&createElement), commit的根本工作就是在完成render阶段产生的effectList需要更改dom的fiber
 
+## mini-react
+
+1. fiber: 负责分片渲染, 为每个节点创建真实dom, 并进行
+2. reconcile: 负责将一个fiber节点与children进行对比, 生成effectList
+
 ## 直观感受fiber
 
 1. [stack渲染](https://claudiopro.github.io/react-fiber-vs-stack-demo/stack.html)
 2. [fiber渲染](https://claudiopro.github.io/react-fiber-vs-stack-demo/fiber.html)
-
 
 ## 提几个问题
 

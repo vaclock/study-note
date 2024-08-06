@@ -135,3 +135,4 @@ dist
 /**/yarn-error.log
 # .**
 .deps
+/**/.parcel-cache
