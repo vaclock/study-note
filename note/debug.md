@@ -39,6 +39,13 @@ console.log(3);
 
 然后每一行可能有多个位置的映射，用 , 分隔。
 
+生成的代码
+
+```js
+console.log(3);
+//# sourceMappingURL=bundle85ca3.js.map
+```
+
 ```json
 {
   "version": 3,
@@ -51,15 +58,23 @@ console.log(3);
 }
 ```
 
+> vlq解码: [https://www.murzwin.com/base64vlq.html]
+
 1. version: 应该是指webpack使用到的`webpack-sources`主版本号
 2. file: 生成的文件名
-3. mappings: 源码和bundle.js的映射关系, 分别有这些对应信息
-   1. 转换后的代码第几列(行数通过分号 ; 来确定）)
-   2. 转换前的在哪个源码文件, 通过编码所在的索引来取sources
-   3. 转换前的源码第几行
-   4. 转换前的源码第几列
-   5. 转换前的源码哪个变量, 通过编码所在索引来取names
+3. mappings: 源码和bundle.js的映射关系, 分别有这些对应信息(VLQ编码) `AAIAA`解码后为`[0,0,4,0,0]`, `QAAQC` 解码后是`[8,0,0,8,1]`, `IAHCC`解码后是`[4,0,-3,1,1]`
+   1. 第一位: 转换后的代码第几列(行数通过分号 ; 来确定）)
+   2. 第二位: 转换前的在哪个源码文件, 通过编码所在的索引来取sources
+   3. 第三位: 转换前的源码第几行
+   4. 第四位: 转换前的源码第几列
+   5. 第五位: 转换前的源码哪个变量, 通过编码所在索引来取names
 4. sourceContent: 通过上述对应关系, 最终解析sourcesContent, 得到源码
 5. sourceRoot: 源码的根目录, 默认是空
+
+解释:（解释不通， 这个映射可能有问题）
+
+1. build第0行第0列对应源码第4行第0列, 变量是console
+2. build第0行第8列对应source第0行第8列, 变量是log, 也就是```console.log(add(1, 2))```这一行
+3. build第0行第4列(也就是8+4)`3`对应source第-3行(也就是第1行)第1列`function add(a, b){return a + b}`的`return a + b`
 
 ### webpack中的sourcemap
