@@ -4,23 +4,27 @@ function swap(arr, i, j) {
   [arr[i], arr[j]] = [arr[j], arr[i]]
 }
 
+/**
+ * [4, 1, 2, 8, 3, 7]
+ * max    j
+ * @param {*} arr 
+ * @returns 
+ */
 // 每次循环都选出一个数最大，把最大的放到开始循环的地方
 function selectSort(arr) {
-  let max = 0
-  for (let i = max; i < arr.length; i++) {
-    max = i
+  let min = 0
+  for (let i = 0; i < arr.length; i++) {
+    min = i
     for (let j = i + 1; j < arr.length; j++) {
-      if (arr[j] < arr[i]) {
-        swap(arr, i, j)
+      if (arr[j] < arr[min]) {
+        // 证明j比min小 交换后j就在min的位置了
+        // 要注意 j - len这段中最小的已经放到i的位置了
+        swap(arr, min, j)
       }
-    }
-    if (i !== max) {
-      swap(arr, i, max)
-      max = i
     }
   }
   return arr
 }
 
-const arr = [2, 1, 4, 8, 3, 7]
+const arr = [2, 1, 4, 8, 3, 7, -12, 100]
 console.log(selectSort(arr))
