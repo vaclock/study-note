@@ -12,17 +12,22 @@ let obj = {
 
 let res = {}
 function dfs(obj, path) {
-    if (typeof obj === 'object' && obj !== null) {
-        for (let key in obj) {
-            if (Array.isArray(obj)) {
-                let newPath = path ? `${path}[${key}]` : key
-                dfs(obj[key], newPath)
+    for (let key in obj) {
+        if (typeof obj[key] === 'object') {
+            if (Array.isArray(obj[key])) {
+                // 数组
+                obj[key].forEach((item, index) => {
+                    dfs(item, `${path ? `${path}.` : ''}${key}[${index}]`)
+                })
             } else {
-                let newPath = path ? `${path}.${key}` : key
-                dfs(obj[key], newPath)
+                // 对象
+                dfs(obj[key], `${path ? `${path}.` : ''}${key}`)
             }
+        } else {
+            res[`${path ? `${path}.` : ''}${key}`] = obj[key]
         }
-    } else {
+    }
+    if (typeof obj !== 'object' && path) {
         res[path] = obj
     }
 }
