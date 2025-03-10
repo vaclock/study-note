@@ -24,20 +24,45 @@ const createIterator = (arr) => {
 
 const iterator = createIterator([1, 2, 3, 4])
 
-console.log(iterator.next())
-console.log(iterator.next())
-console.log(iterator.next())
-console.log(iterator.next())
-console.log(iterator.next())
+// console.log(iterator.next())
+// console.log(iterator.next())
+// console.log(iterator.next())
+// console.log(iterator.next())
+// console.log(iterator.next())
 
 
-// 实现了迭代器协议的对象，可以被for item of 遍历 for of中会调用[Symbol.iterator]方法
+// 可迭代协议：实现了迭代器协议的对象，可以被for item of 遍历 for of中会调用[Symbol.iterator]方法
 // item 是迭代器返回的value, 如果done为true 迭代结束
 
 // 可迭代协议:
 const IteratorObj = {
-  data: [1, 2, 3, 4, 5],
-  [Symbol.iterator]() {
-    let index
+  a: 1,
+  b: [12, 3],
+  c: function() { console.log('aa'); },
+  [Symbol.iterator]: function* () {
+    for (const key of Object.keys(this)) {
+      yield this[key]
+    }
   }
 }
+
+// for (const item of IteratorObj) {
+//   console.log(item)
+// }
+
+// 实现一个无限斐波那契数列的生成器
+function* fibonacci() {
+  let a = 0, b = 1
+  while (true) {
+    yield a;
+    [a, b] = [b, a + b]
+  }
+}
+
+const fib = fibonacci()
+console.log(fib.next().value)
+console.log(fib.next().value)
+console.log(fib.next().value)
+console.log(fib.next().value)
+console.log(fib.next().value)
+

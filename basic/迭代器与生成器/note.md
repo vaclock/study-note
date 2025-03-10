@@ -36,7 +36,7 @@ V8引擎如何实现这种双重性
 class JSArray : public JSObject {
 private:
   // 存储元素的内部结构
-  ElementsAccessor* elements_; // 只想实际元素存储的指针
+  ElementsAccessor* elements_; // 指向实际元素存储的指针
 
   // 数组长度
   unit32_t length_;
@@ -49,3 +49,12 @@ V8所做的事:
 
 1. 当我们在js中访问`arr[0]`、`arr.length`时，V8会直接访问元素内部的`elements_`存储和`length_`属性
 2. 当我们调用`arr.abc`等方法时，V8会通过原型链查找，找到`Array.prototype.abc`方法, 同时将整个`JSArray`对象作为`this`传递
+
+特别的，当我们调用数组的`[Symbol.iterator]()`时，其实是在`Array.prototype`上找到的，方法内，调用内置的`ArrayPrototypeIterator`
+
+`Array.prototype[Symbol.iterator]`的实现在V8的启动代码中，主要位于：`src/builtins/array.js或src/builtins/builtins-array.cc`中定义核心函数
+在V8启动时通过`src/init/bootstrapper.cc`注册到全局对象上
+
+生成器函数
+
+生成器函数是一种语法糖，便于简洁创造出迭代器
